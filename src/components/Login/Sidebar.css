@@ -1,0 +1,10 @@
+.Sidebar {
+    padding: 16px;
+    background-color: lightgray;
+    height: calc(100vh - 56px);
+    overflow: auto;
+}
+
+.ListGroup > li {
+    cursor: pointer;
+}

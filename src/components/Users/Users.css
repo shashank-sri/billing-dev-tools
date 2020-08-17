@@ -1,0 +1,9 @@
+.Users {
+    padding: 16px;
+    height: calc(100vh - 56px);
+    overflow: auto;
+}
+
+.Table td {
+    font-size: 14px;
+}
