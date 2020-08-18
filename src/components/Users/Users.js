@@ -124,7 +124,7 @@ class Users extends Component {
             users = (<div className="col-12 text-center">Loading</div>);
         }
         else {
-            users = (<table className={"table table-hover table-sm table-responsive " + classes.Table}>
+            users = (<table className={"table table-hover table-sm w-100 " + classes.Table}>
                 <thead className="thead-dark">
                     <tr>
                         <th scope="col">#</th>
