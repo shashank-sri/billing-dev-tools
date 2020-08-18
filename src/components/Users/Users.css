@@ -4,6 +4,11 @@
     overflow: auto;
 }
 
+.Table th {
+    text-align: center !important;
+    padding: 8px 16px !important;
+}
+
 .Table td {
     font-size: 14px;
 }

@@ -29,7 +29,7 @@ class Login extends Component {
     }
 
     login = async () => {
-        if (this.state.username === 'admin' && this.state.password === 'claysol@losyalc') {
+        if (this.state.username === 'admin' && this.state.password === 'Claysol@123') {
             await this.props.setAuthState('1');
             await this.props.history.push('/users');
         }

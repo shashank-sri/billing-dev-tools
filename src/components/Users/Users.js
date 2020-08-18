@@ -124,7 +124,7 @@ class Users extends Component {
             users = (<div className="col-12 text-center">Loading</div>);
         }
         else {
-            users = (<table className={"table table-hover table-sm w-100 " + classes.Table}>
+            users = (<table className={"table table-hover table-sm table-bordered w-100 " + classes.Table}>
                 <thead className="thead-dark">
                     <tr>
                         <th scope="col">#</th>
@@ -134,8 +134,8 @@ class Users extends Component {
                         <th scope="col">VSC Verified</th>
                         <th scope="col">OTT Subscribed</th>
                         <th scope="col">Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Address</th>
+                        <th scope="col">Email Address</th>
+                        <th scope="col">Physical Address</th>
                         <th scope="col">City</th>
                         <th scope="col">State</th>
                         <th scope="col">Pincode</th>
