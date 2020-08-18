@@ -133,8 +133,8 @@ class Users extends Component {
                         <th scope="col">RMN Verified</th>
                         <th scope="col">VSC Verified</th>
                         <th scope="col">OTT Subscribed</th>
+                        <th scope="col">VSC No.</th>
                         <th scope="col">Name</th>
-                        <th scope="col">Email Address</th>
                         <th scope="col">Physical Address</th>
                         <th scope="col">City</th>
                         <th scope="col">State</th>
@@ -159,8 +159,8 @@ class Users extends Component {
                                 <td className={[u.subscribed ? 'text-success' : 'text-danger', 'text-center'].join(' ')}>
                                     <FontAwesomeIcon icon={u.subscribed ? faCheck : faTimes} />
                                 </td>
+                                <td>{u.vsc_no}</td>
                                 <td>{u.name}</td>
-                                <td>{u.email}</td>
                                 <td>{u.address}</td>
                                 <td>{u.city}</td>
                                 <td>{u.state}</td>
