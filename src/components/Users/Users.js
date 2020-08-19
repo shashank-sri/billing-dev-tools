@@ -16,6 +16,7 @@ class Users extends Component {
         goToPage: 1,
         pageSize: 20,
         totalUsersCount: null,
+        filters: {},
         entity: null,
         fetching: false,
     }
@@ -71,8 +72,9 @@ class Users extends Component {
         }
 
         let params = {
-            number: this.state.pageSize,
+            pageSize: this.state.pageSize,
             page: this.state.goToPage,
+            filters: this.state.filters,
         };
 
         let url = `/get-users${utils.getQueryParams(params)}`;
@@ -82,7 +84,7 @@ class Users extends Component {
         this.setState({ fetching: true });
         this.props.setGlobalMessage('Getting users', 'warning');
 
-        return axios.get(url)
+        return axios.post(url, params)
             .then(response => {
                 this.setState({
                     users: response.data.users,
@@ -104,6 +106,12 @@ class Users extends Component {
     goToPage = async (page) => {
         await this.setState({ goToPage: page });
         this.getUsers();
+    }
+
+    handleFilterChange = (filterId, event) => {
+        let filters = this.state.filters;
+        filters[filterId] = event.target.value;
+        this.setState({ filters });
     }
 
     async componentDidMount() {
@@ -166,7 +174,7 @@ class Users extends Component {
                                 <td>{u.state}</td>
                                 <td>{u.pincode}</td>
                                 <td>{u.zone}</td>
-                                <td style={{"width": "130px"}}>
+                                <td style={{ "width": "130px" }}>
                                     {/* <button type="button" className="m-1 btn btn-primary btn-sm" disabled={!u.vsc_verified}>VSC Details</button> */}
                                     <button type="button" className="m-1 btn btn-danger btn-sm" onClick={() => this.removeUser(u.phone)}>Remove User</button>
                                 </td>
@@ -177,7 +185,7 @@ class Users extends Component {
             </table>);
 
             pageInfo = (
-                <li className="" style={{ lineHeight: '38px' }}>
+                <li className="" style={{ lineHeight: '31px' }}>
                     Showing {this.state.pageSize * (this.state.page - 1) + 1}-{(this.state.pageSize * this.state.page) <= this.state.totalUsersCount ? (this.state.pageSize * this.state.page) : (this.state.totalUsersCount)} users of {this.state.totalUsersCount}
                 </li>
             );
@@ -190,16 +198,40 @@ class Users extends Component {
                         <div className='col-12 pl-0'>
                             <nav>
                                 <ol className="breadcrumb">
-                                    {pageInfo}
+                                    <li>
+                                        <div className="input-group input-group-sm">
+                                            <div className="input-group-prepend">
+                                                <div className="input-group-text">+91</div>
+                                            </div>
+                                            <input className="form-control form-control-sm" type="text" placeholder="RMN" value={this.state.filters.phone} onChange={(e) => this.handleFilterChange('phone', e)} />
+                                        </div>
+                                    </li>
+                                    <li className="ml-2">
+                                        <div className="input-group">
+                                            <input className="form-control form-control-sm" type="text" placeholder="VSC" value={this.state.filters.vsc_no} onChange={(e) => this.handleFilterChange('vsc_no', e)} />
+                                        </div>
+                                    </li>
+                                    <li className="ml-2">
+                                        <button type="button" className="btn btn-sm btn-primary" onClick={this.getUsers} >Search</button>
+                                        <button type="button" className="btn btn-sm btn-primary ml-2" onClick={this.getUsers} >Reset</button>
+                                    </li>
                                     <li className="ml-auto">
-                                        <nav aria-label="Page navigation example">
-                                            <ul className="pagination">
+                                        <nav aria-label="Page navigation">
+                                            <ul className="pagination pagination-sm">
+                                                <li className="px-3">
+                                                    {pageInfo}
+                                                </li>
                                                 <li className={"page-item" + (this.state.page === 1 ? ' disabled' : '')}>
                                                     <a className="page-link" onClick={() => this.goToPage(this.state.page - 1)}>&lt;</a>
                                                 </li>
-                                                <li className="page-item py-1 px-3">
-                                                    Page <input type='text' value={this.state.goToPage} onChange={this.updatePage} style={{ width: '40px', textAlign: 'center' }} />
-                                                    <button type="button" className="btn btn-primary btn-sm ml-2" onClick={this.getUsers} >Go</button>
+                                                <li className="page-item py-1 mx-2">
+                                                    Page
+                                                </li>
+                                                <li>
+                                                    <input type='text' value={this.state.goToPage} onChange={this.updatePage} style={{ width: '40px', textAlign: 'center' }} className=" form-control form-control-sm" />
+                                                </li>
+                                                <li>
+                                                    <button type="button" className="btn btn-primary btn-sm mx-2" onClick={this.getUsers} >Go</button>
                                                 </li>
                                                 <li className={"page-item" + (this.state.page === Math.ceil(this.state.totalUsersCount / this.state.pageSize) ? ' disabled' : '')}>
                                                     <a className="page-link" onClick={() => this.goToPage(this.state.page + 1)}>&gt;</a>
