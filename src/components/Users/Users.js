@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import axios from '../../services/axios';
 import classes from './Users.css';
-import utils from '../../services/utils';
 import * as actions from '../../store/actions/index';
 
 class Users extends Component {
@@ -63,11 +62,11 @@ class Users extends Component {
         }
     }
 
-    getUsers = () => {
+    getUsers = async () => {
         if (this.state.totalUsersCount && (this.state.goToPage <= 0 || this.state.goToPage > Math.ceil(this.state.totalUsersCount / this.state.pageSize))) {
             this.props.setGlobalMessage('Invalid Page  Number', 'error');
             this.setMessageTimeout();
-            this.setState((oldState) => ({ goToPage: oldState.page }));
+            await this.setState((oldState) => ({ goToPage: oldState.page }));
             return;
         }
 
@@ -77,16 +76,16 @@ class Users extends Component {
             filters: this.state.filters,
         };
 
-        let url = `/get-users${utils.getQueryParams(params)}`;
+        let url = `/get-users`;
         console.log(url);
 
         this.clearMessageTimeout();
-        this.setState({ fetching: true });
+        await this.setState({ fetching: true });
         this.props.setGlobalMessage('Getting users', 'warning');
 
         return axios.post(url, params)
-            .then(response => {
-                this.setState({
+            .then(async (response) => {
+                await this.setState({
                     users: response.data.users,
                     totalUsersCount: response.data.found,
                     page: this.state.goToPage,
@@ -98,20 +97,25 @@ class Users extends Component {
                 this.props.setGlobalMessage(error.message, 'error');
                 this.setMessageTimeout();
             })
-            .finally(() => {
-                this.setState({ fetching: false });
+            .finally(async () => {
+                await this.setState({ fetching: false });
             });
     }
 
     goToPage = async (page) => {
         await this.setState({ goToPage: page });
-        this.getUsers();
+        await this.getUsers();
     }
 
-    handleFilterChange = (filterId, event) => {
+    handleFilterChange = async (filterId, event) => {
         let filters = this.state.filters;
         filters[filterId] = event.target.value;
-        this.setState({ filters });
+        await this.setState({ filters });
+    }
+
+    resetFilters = async () => {
+        await this.setState({ filters: {} });
+        await this.getUsers();
     }
 
     async componentDidMount() {
@@ -203,17 +207,17 @@ class Users extends Component {
                                             <div className="input-group-prepend">
                                                 <div className="input-group-text">+91</div>
                                             </div>
-                                            <input className="form-control form-control-sm" type="text" placeholder="RMN" value={this.state.filters.phone} onChange={(e) => this.handleFilterChange('phone', e)} />
+                                            <input className="form-control form-control-sm" type="text" placeholder="RMN" value={(this.state.filters && this.state.filters.phone) || ''} onChange={(e) => this.handleFilterChange('phone', e)} />
                                         </div>
                                     </li>
                                     <li className="ml-2">
                                         <div className="input-group">
-                                            <input className="form-control form-control-sm" type="text" placeholder="VSC" value={this.state.filters.vsc_no} onChange={(e) => this.handleFilterChange('vsc_no', e)} />
+                                            <input className="form-control form-control-sm" type="text" placeholder="VSC" value={(this.state.filters && this.state.filters.vsc_no) || ''} onChange={(e) => this.handleFilterChange('vsc_no', e)} />
                                         </div>
                                     </li>
                                     <li className="ml-2">
                                         <button type="button" className="btn btn-sm btn-primary" onClick={this.getUsers} >Search</button>
-                                        <button type="button" className="btn btn-sm btn-primary ml-2" onClick={this.getUsers} >Reset</button>
+                                        <button type="button" className="btn btn-sm btn-primary ml-2" onClick={this.resetFilters} >Reset</button>
                                     </li>
                                     <li className="ml-auto">
                                         <nav aria-label="Page navigation">
