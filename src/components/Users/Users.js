@@ -142,16 +142,14 @@ class Users extends Component {
                         <th scope="col">#</th>
                         <th scope="col">Reg. Date</th>
                         <th scope="col">Mobile (RMN)</th>
-                        <th scope="col">RMN Verified</th>
-                        <th scope="col">VSC Verified</th>
-                        <th scope="col">OTT Subscribed</th>
                         <th scope="col">VSC No.</th>
                         <th scope="col">Name</th>
-                        <th scope="col">Physical Address</th>
-                        <th scope="col">City</th>
-                        <th scope="col">State</th>
-                        <th scope="col">Pincode</th>
-                        <th scope="col">Zone</th>
+                        <th scope="col">Demo User</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Subscription</th>
+                        <th scope="col">Pacakge MRP (INR)</th>
+                        <th scope="col">Pacakge Discount (%)</th>
+                        <th scope="col">Order Amount (INR)</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
@@ -162,24 +160,21 @@ class Users extends Component {
                                 <th scope="row">{((this.state.page - 1) * this.state.pageSize) + i + 1}</th>
                                 <td>{new Date(u.created_at).toLocaleString()}</td>
                                 <td>{u.phone}</td>
-                                <td className={[u.phone_verified ? 'text-success' : 'text-danger', 'text-center'].join(' ')}>
-                                    <FontAwesomeIcon icon={u.phone_verified ? faCheck : faTimes} />
-                                </td>
-                                <td className={[u.vsc_verified ? 'text-success' : 'text-danger', 'text-center'].join(' ')}>
-                                    <FontAwesomeIcon icon={u.vsc_verified ? faCheck : faTimes} />
-                                </td>
-                                <td className={[u.subscribed ? 'text-success' : 'text-danger', 'text-center'].join(' ')}>
-                                    <FontAwesomeIcon icon={u.subscribed ? faCheck : faTimes} />
-                                </td>
                                 <td>{u.vsc_no}</td>
                                 <td>{u.name}</td>
-                                <td>{u.address}</td>
-                                <td>{u.city}</td>
-                                <td>{u.state}</td>
-                                <td>{u.pincode}</td>
-                                <td>{u.zone}</td>
+                                <td>{u.demo_user ? 'Yes' : 'No'}</td>
+                                <td>{u.user_status}</td>
+                                <td>{u.active_subscription && u.active_subscription.package_group_code} - {u.active_subscription && u.active_subscription.package_code}</td>
+                                <td>
+                                    {u.order && u.order.order_items[0] && u.order.order_items[0].package_max_retail_price.toFixed(2)}
+                                </td>
+                                <td>
+                                    {u.order && u.order.order_items[0] && u.order.order_items[0].package_discount_percentage}
+                                </td>
+                                <td>
+                                    {u.order && u.order.order_amount.toFixed(2)}
+                                </td>
                                 <td style={{ "width": "130px" }}>
-                                    {/* <button type="button" className="m-1 btn btn-primary btn-sm" disabled={!u.vsc_verified}>VSC Details</button> */}
                                     <button type="button" className="m-1 btn btn-danger btn-sm" onClick={() => this.removeUser(u.phone)}>Remove User</button>
                                 </td>
                             </tr>
