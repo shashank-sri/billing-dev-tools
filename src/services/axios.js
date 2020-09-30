@@ -7,8 +7,8 @@ const config = {
         'x-api-key': 'efpmEpTNKi9M90m5WxA5G2qoQp1U56XX8KjOI3eR',
     },
     'staging': {
-        'baseURL': 'https://t4pyh84te6.execute-api.ap-south-1.amazonaws.com/staging/api/v1/billing',
-        'x-api-key': 'wlC2cStpGg4WToPiFZKTV4it2AEEIQF1cwmQQcOc',
+        'baseURL': 'https://idyhokfdsh.execute-api.ap-south-1.amazonaws.com/staging',
+        'x-api-key': 'qIY4i9Yb7R9LwcUvTPLo95pIEVrBG7dL5JsYejyP',
     },
 }
   

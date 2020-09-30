@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import axios from '../../services/axios';
 import classes from './Users.css';
@@ -44,11 +44,11 @@ class Users extends Component {
     removeUser = (rmn) => {
         let deleteUser = window.confirm(`Delete user with RMN ${rmn}?`);
         if (deleteUser) {
-            let url = `/remove-user`;
+            let url = `/users/${rmn}`;
             this.clearMessageTimeout();
             this.props.setGlobalMessage('Deleting user', 'warning');
 
-            return axios.post(url, { rmn })
+            return axios.delete(url)
                 .then(async () => {
                     this.props.setGlobalMessage('User Deleted', 'success');
                     this.setMessageTimeout(2000);
@@ -76,7 +76,7 @@ class Users extends Component {
             filters: this.state.filters,
         };
 
-        let url = `/get-users`;
+        let url = `/users`;
         console.log(url);
 
         this.clearMessageTimeout();
