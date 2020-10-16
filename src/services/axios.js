@@ -17,5 +17,6 @@ const instance = axios.create({
 });
 
 instance.defaults.headers.post['x-api-key'] = config[stage]['x-api-key'];
+instance.defaults.headers.delete['x-api-key'] = config[stage]['x-api-key'];
 
 export default instance;

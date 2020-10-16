@@ -185,7 +185,7 @@ class Users extends Component {
 
             pageInfo = (
                 <li className="" style={{ lineHeight: '31px' }}>
-                    Showing {this.state.pageSize * (this.state.page - 1) + 1}-{(this.state.pageSize * this.state.page) <= this.state.totalUsersCount ? (this.state.pageSize * this.state.page) : (this.state.totalUsersCount)} users of {this.state.totalUsersCount}
+                    Showing {this.state.totalUsersCount == 0 ? 0 : (this.state.pageSize * (this.state.page - 1) + 1)} - {(this.state.pageSize * this.state.page) <= this.state.totalUsersCount ? (this.state.pageSize * this.state.page) : (this.state.totalUsersCount)} users of {this.state.totalUsersCount}
                 </li>
             );
         }
